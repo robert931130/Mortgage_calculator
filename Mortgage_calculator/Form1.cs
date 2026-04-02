@@ -37,7 +37,7 @@ namespace Mortgage_calculator
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
-            // ================= 1. 防呆驗證與範圍檢查 =================
+            //  防呆驗證與範圍檢查
             if (!double.TryParse(txtTotalPrice.Text, out double housePrice) ||
                 !double.TryParse(txtDownPay.Text, out double downPayInput) ||
                 !double.TryParse(txtInterestRate.Text, out double annualRate) ||
@@ -60,7 +60,7 @@ namespace Mortgage_calculator
                 return;
             }
 
-            // ================= 2. 貸款總額計算 =================
+            // 貸款總額計算
             // 判斷自備款是比例還是金額
             double downPayAmount = rbDownPayPercent.Checked ? housePrice * (downPayInput / 100.0) : downPayInput;
             double totalLoan = housePrice - downPayAmount;
@@ -71,7 +71,7 @@ namespace Mortgage_calculator
                 return;
             }
 
-            // ================= 3. 房貸公式核心邏輯 =================
+            // 房貸公式核心邏輯
             double monthlyRate = annualRate / 100.0 / 12.0; // 月利率
             int totalMonths = loanYears * 12;               // 總期數
             int graceMonths = graceYears * 12;              // 寬限期數
@@ -98,7 +98,7 @@ namespace Mortgage_calculator
             double totalRepayment = (graceMonths * firstMonthInterest) + (amortizeMonths * monthlyPayment);
             double totalInterest = totalRepayment - totalLoan;
 
-            // ================= 4. UI 輸出與排版優化 =================
+            // UI 輸出與排版優化
             lblResultTotalLoan.Text = $"NT$ {totalLoan:N2}";
             lblResultFirstInterest.Text = $"NT$ {firstMonthInterest:N2}";
             lblResultFirstPrincipal.Text = $"NT$ {firstMonthPrincipal:N2}";
@@ -117,7 +117,7 @@ namespace Mortgage_calculator
                 lblResultMonthlyPay.Text = $"NT$ {monthlyPayment:N2}";
             }
 
-            // ================= 5. 繪製圓餅圖 (Chart) =================
+            // 繪製圓餅圖 (Chart)
             // 確保圖表類型是圓餅圖
             chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             chart1.Series[0].Points.Clear(); // 清除上次計算的舊資料
